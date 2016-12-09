@@ -1,0 +1,153 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<!--
+`json-box`
+A textbox that converts its json input string to an object that is returned through a property.
+
+For displaying and editing an object:
+```
+<json-box label="A JSON object" current="{{current}}" start="[[start]]" show-buttons></json-box>
+```
+
+For displaying an object and disabling editing:
+```
+<json-box label="A JSON object" current="[[current]]" disabled></json-box>
+```
+
+@demo demo/index.html 
+-->
+
+<dom-module id="json-box">
+
+  <style include="iron-flex iron-flex-alignment">
+  </style>
+
+  <template>
+    <template is="dom-if" if="[[showButtons]]">
+      <div class="layout horizontal end-justified">
+        <paper-icon-button icon="clear" title="Clear" on-tap="clear"></paper-icon-button>
+        <paper-icon-button icon="undo" title="Reset" on-tap="reset"></paper-icon-button>
+        <paper-icon-button icon="code" title="Format" on-tap="format"></paper-icon-button>
+      </div>
+
+    </template>
+    <paper-textarea 
+      label="[[label]]"
+      value="{{value}}"
+      error-message="Invalid JSON!"
+      readonly="[[disabled]]"
+      invalid="[[error]]"></paper-textarea>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'json-box',
+
+      properties: {
+        /*
+         * `label` is the textarea label that will appear
+        */
+        label: String,
+        /*
+         * `start` is the starting object displayed
+        */
+        start: {
+          type: Object,
+          value: function(){return {};}
+        },
+        /*
+         * `current` is the current object displayed after user edits. If erroring, will return {}
+        */
+        current:{
+          type: Object,
+          notify: true,
+          reflectToAttribute: true,
+          computed: "_computeCurrent(value)"
+        },
+        value:{
+          type: String,
+          observer: "_valueChanged"
+        },
+        /*
+         * `error` is whether the current string fails to be converted to JSON
+        */
+        error: {
+          type: Boolean,
+          value: false
+        },
+        /*
+         * `disabled` is whether the user is allowed to edit the object
+        */
+        disabled: {
+          type: Boolean,
+          value: false
+        },
+        /*
+         * `showButtons` is whether buttons for clear, format and reset are shown
+        */
+        showButtons: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      _valueChanged: function(newValue, oldValue){
+        try {
+          v = JSON.parse(newValue);
+          if (v){
+            this.error = false;
+          }
+        } catch (e){
+          this.error = true;
+        }
+      },
+
+      _computeCurrent: function(value){
+        try {
+          return JSON.parse(value);
+        }catch (e){
+          return {};
+        }
+      },
+
+      attached: function(){
+        this.reset();
+      },
+
+      /*
+       * Resets the current value to the start value
+       */
+      reset: function(){
+        this.value=JSON.stringify(this.start, null,"\t");
+      },
+
+      /*
+       * Sets the current value to the provided object
+       */
+      set: function(v){
+        this.value = JSON.stringify(v, null, "\t");
+      },
+
+      /*
+       * Clears the current value (sets to {})
+       */
+      clear: function(){
+        this.set({});
+      },
+
+      /*
+       * Formats the current entry
+       */
+      format: function(){
+        this.value=JSON.stringify(JSON.parse(this.value), null, "\t");
+      }
+
+
+    });
+  </script>
+</dom-module>
