@@ -27,7 +27,7 @@ For displaying and editing an object:
 -->
 
 ```html
-<json-box label="A JSON object" current="{{current}}" start="[[start]]" show-buttons></json-box>
+<json-box label="A JSON object" current="{{current}}" show-buttons max-rows="5"></json-box>
 
 <!-- Demo -->
 <br>

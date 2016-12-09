@@ -40,7 +40,8 @@ For displaying an object and disabling editing:
       value="{{value}}"
       error-message="Invalid JSON!"
       readonly="[[disabled]]"
-      invalid="[[error]]"></paper-textarea>
+      invalid="[[error]]"
+      max-rows="[[maxRows]]"></paper-textarea>
   </template>
 
   <script>
@@ -93,6 +94,13 @@ For displaying an object and disabling editing:
         showButtons: {
           type: Boolean,
           value: false
+        },
+        /*
+         * `maxRows` is the maximum number of rows in the textarea
+        */
+        maxRows: {
+          type: Number,
+          value: 0
         }
       },
 
