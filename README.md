@@ -25,11 +25,6 @@ For displaying and editing an object:
         <next-code-block></next-code-block>
       </template>
     </div>
-    <script>
-      document.querySelector("#jbox").set({
-        "hello": "world!"
-      });
-    </script>
   </template>
 </custom-element-demo>
 ```
@@ -41,6 +36,8 @@ For displaying and editing an object:
 <!-- Demo -->
 <br>
 Current hello property: [[current.hello]]
+<br>
+Copy this into the textarea above: {"hello":12}
 <!-- End demo-->
 ```
 
