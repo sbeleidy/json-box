@@ -20,14 +20,23 @@ For displaying and editing an object:
 <custom-element-demo>
   <template>
     <link rel="import" href="json-box.html">
-    <next-code-block></next-code-block>
+    <div>
+      <template is="dom-bind">
+        <next-code-block></next-code-block>
+      </template>
+    </div>
+    <script>
+      document.querySelector("#jbox").set({
+        "hello": "world!"
+      });
+    </script>
   </template>
 </custom-element-demo>
 ```
 -->
 
 ```html
-<json-box label="A JSON object" current="{{current}}" show-buttons max-rows="5"></json-box>
+<json-box id="jbox" label="A JSON object" current="{{current}}" show-buttons max-rows="5"></json-box>
 
 <!-- Demo -->
 <br>
@@ -41,7 +50,11 @@ For displaying an object and disabling editing:
 <custom-element-demo>
   <template>
     <link rel="import" href="json-box.html">
-    <next-code-block></next-code-block>
+    <div>
+      <template is="dom-bind">
+        <next-code-block></next-code-block>
+      </template>
+    </div>
   </template>
 </custom-element-demo>
 ```
